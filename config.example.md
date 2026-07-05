@@ -61,7 +61,7 @@ LOYER_MAX_HORS_CHARGES=1400   # si le loyer est affiché hors charges
 
 ```
 TYPE_LOGEMENT=entier                 # logement entier (pas de colocation)
-TYPES_BIEN=T2, T3, etc.              # 2 pièces et plus ; ajoutez « maison » si voulu
+TYPES_BIEN=appartement et maison     # logement entier T2/T3/… (2 pièces et plus), maison incluse
 PIECES_MIN=2                         # nb de pièces minimum (T2 = 2 pièces, T3 = 3, …) — exclut studio/T1
 MEUBLE=indifférent                   # meublé ET non meublé
 DUREE=longue durée (location à l'année)   # EXCLURE saisonnier / vacances / courte durée
@@ -156,7 +156,7 @@ PAP_URL=https://www.pap.fr/annonce/locations-menton-06500-g43769-1500?geo_objets
 
 ### SeLoger (seloger.com) — agences
 
-Base : `https://www.seloger.com/immobilier/locations/` → communes + budget 1 500 € + type appartement.
+Base : `https://www.seloger.com/immobilier/locations/` → communes + budget 1 500 € + types **appartement ET maison**.
 ```
 SELOGER_URL=https://www.seloger.com/immobilier/locations/nice/  # ⚠️ protection anti-bot forte : la skill navigue lentement, filtre à la main
 ```

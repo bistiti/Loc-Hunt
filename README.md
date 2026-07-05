@@ -6,7 +6,7 @@ françaises, **suit les annonces dans un tableur**, **rédige des messages de co
 
 > Adapté du projet [london-property-hunt-public](https://github.com/mikepapadim/london-property-hunt-public)
 > pour le marché **français**, secteur **Monaco et communes limitrophes + littoral (Menton → La Trinité)**,
-> **logement entier** (T2 / T3 / etc., 2 pièces et plus), **≤ 1 500 € charges comprises**.
+> **logement entier** (appartement ou maison, T2 / T3 / etc., 2 pièces et plus), **≤ 1 500 € charges comprises**.
 
 ---
 
@@ -106,7 +106,7 @@ Dans Claude Code, `/schedule` pour un lancement 2×/jour :
 
 ## Comment fonctionne la recherche
 
-- **Cible :** logement entier — T2 / T3 / etc. (2 pièces et plus), meublé **ou** non meublé, **longue durée** (location à l'année)
+- **Cible :** logement entier — **appartement ou maison**, T2 / T3 / etc. (2 pièces et plus), meublé **ou** non meublé, **longue durée** (location à l'année)
 - **Exclusions strictes :** locations saisonnières / vacances / courte durée / meublé de tourisme
 - **Budget :** ≤ 1 500 € charges comprises (léger dépassement toléré mais marqué LOW)
 - **Plateformes :** LeBonCoin + PAP (particuliers, sans frais d'agence) + Bien'ici + SeLoger (+ Logic-Immo / Jinka en option)

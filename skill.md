@@ -20,7 +20,7 @@ Fais tout automatiquement — aucun humain présent. Va au bout de chaque étape
 - Téléphone : [VOTRE_TELEPHONE]
 
 ## CE QU'ON CHERCHE — LOGEMENT ENTIER UNIQUEMENT
-- T2 / T3 / etc. — 2 pièces et plus (appartement ou maison entière). PAS de studio ni T1, PAS de colocation.
+- T2 / T3 / etc. — 2 pièces et plus. **Appartement ET maison entière** (les deux sont recherchés). PAS de studio ni T1, PAS de colocation.
 - Loyer : jusqu'à [LOYER_MAX] € charges comprises (ou [LOYER_MAX_HORS_CHARGES] € hors charges).
 - Meublé OU non meublé — les deux conviennent.
 - **LONGUE DURÉE (location à l'année). EXCLURE impérativement** : locations saisonnières, vacances,
