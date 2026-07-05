@@ -20,7 +20,7 @@ Fais tout automatiquement — aucun humain présent. Va au bout de chaque étape
 - Téléphone : [VOTRE_TELEPHONE]
 
 ## CE QU'ON CHERCHE — LOGEMENT ENTIER UNIQUEMENT
-- Studio / T1 / T2 (appartement entier). PAS de colocation, PAS de chambre chez l'habitant.
+- T2 / T3 / etc. — 2 pièces et plus (appartement ou maison entière). PAS de studio ni T1, PAS de colocation.
 - Loyer : jusqu'à [LOYER_MAX] € charges comprises (ou [LOYER_MAX_HORS_CHARGES] € hors charges).
 - Meublé OU non meublé — les deux conviennent.
 - **LONGUE DURÉE (location à l'année). EXCLURE impérativement** : locations saisonnières, vacances,
@@ -39,20 +39,34 @@ Fais tout automatiquement — aucun humain présent. Va au bout de chaque étape
 ### Filtre durée (obligatoire)
 - Toute mention saisonnier / vacances / courte durée / meublé de tourisme → IGNORER ❌
 
-## PLATEFORMES À PARCOURIR (via automatisation navigateur)
-Pour chacune : ouvrir l'URL de config, appliquer les filtres (communes, loyer max [LOYER_MAX] €,
-type appartement/maison), TRIER PAR PLUS RÉCENT, puis relever chaque annonce de la 1re page (et 2e si peu récentes).
+## COLLECTE DES ANNONCES — selon [MODE_RECHERCHE]
+
+### SI [MODE_RECHERCHE] = email  (recommandé, SANS navigateur)
+Les plateformes envoient leurs nouvelles annonces par email ; on les lit via le connecteur Gmail.
+1. Chercher les emails d'alerte récents dans Gmail :
+   `label:[GMAIL_LABEL] newer_than:[GMAIL_FENETRE]`
+   (à défaut de label : `from:([GMAIL_EXPEDITEURS reliés par OR]) newer_than:[GMAIL_FENETRE]`)
+2. Pour chaque email, lire le corps COMPLET et en extraire CHAQUE annonce :
+   titre, loyer, commune, surface/type si présents, et surtout l'URL de l'annonce.
+3. On ne fait que LIRE les alertes — ne jamais répondre au site ni cliquer de lien de désinscription.
+
+### SI [MODE_RECHERCHE] = navigateur
+Pour chaque plateforme : ouvrir l'URL de config, appliquer les filtres (communes, loyer max [LOYER_MAX] €,
+type appartement/maison, **2 pièces min → T2+**), TRIER PAR PLUS RÉCENT, relever la 1re page (et 2e si besoin).
 
 1. LeBonCoin — [LBC_URL]
 2. PAP — [PAP_URL]   (de particulier à particulier, sans frais d'agence — à privilégier)
 3. Bien'ici — [BIENICI_URL]
 4. SeLoger — [SELOGER_URL]   (protection anti-bot : naviguer doucement, filtrer à la main)
 5. Logic-Immo — [LOGICIMMO_URL]   (optionnel)
-6. Jinka — seulement si [JINKA_ACTIF]=oui (voir config : alertes email via Gmail, ou connexion)
+6. Jinka — seulement si [JINKA_ACTIF]=oui
 
-Pour chaque annonce, ouvrir la page individuelle avant de l'ajouter et relever :
-Titre · Commune · Code postal · Loyer CC · Charges comprises (oui/non) · Surface m² · Type (studio/T1/T2)
+### Dans les deux cas — pour chaque annonce, relever puis filtrer :
+Titre · Commune · Code postal · Loyer CC · Charges comprises (oui/non) · Surface m² · Type (T2/T3/…)
 · Meublé (oui/non) · Disponible le · DPE si affiché · Contact (agence/particulier + tél si visible) · URL.
+
+Filtres obligatoires avant d'ajouter : **2 pièces minimum** (rejeter studio/T1), **longue durée** (rejeter
+saisonnier/vacances), **loyer ≤ [LOYER_MAX] €** (jusqu'à +150 € toléré → priorité LOW).
 
 ## TRACKER
 Fichier : [DOSSIER_RECHERCHE]/loc_hunt.xlsx — feuille : `Logements`
@@ -134,7 +148,10 @@ Enregistrer un .txt par annonce HIGH dans [DOSSIER_RECHERCHE]/outreach/
 | `[VOTRE_EMAIL]` | jfds.cie@gmail.com | config.md |
 | `[DOSSIER_RECHERCHE]` | ~/loc-hunt-cote-azur | config.md |
 | `[GMAIL_ACCOUNT_INDEX]` | 0 (1er compte), 1 (2e) | config.md |
-| `[LBC_URL]` / `[PAP_URL]` / … | URLs de recherche | config.md |
+| `[MODE_RECHERCHE]` | email / navigateur | config.md |
+| `[GMAIL_LABEL]` | Loc-Hunt | config.md |
+| `[GMAIL_FENETRE]` | 3d | config.md |
+| `[LBC_URL]` / `[PAP_URL]` / … | URLs de recherche (mode navigateur) | config.md |
 | `[JINKA_ACTIF]` | non / oui | config.md |
 
 ---
@@ -142,7 +159,7 @@ Enregistrer un .txt par annonce HIGH dans [DOSSIER_RECHERCHE]/outreach/
 ## Pré-requis techniques (côté utilisateur)
 
 - **Claude Code** (CLI ou app) — https://claude.ai/code
-- **Claude dans Chrome** (extension MCP) — pour piloter le navigateur sur LeBonCoin/PAP/SeLoger/Bien'ici
-- **Connecteur Gmail MCP** — pour créer/envoyer l'email récapitulatif
+- **Connecteur Gmail MCP** — pour LIRE les alertes des plateformes (mode `email`) ET envoyer le récapitulatif
 - **Python 3 + openpyxl** — pour le tableur (`pip install openpyxl`)
 - Un compte Gmail auquel accorder l'accès MCP
+- *(mode `navigateur` uniquement)* **Claude dans Chrome** *ou* **Playwright** — pour piloter le navigateur

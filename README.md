@@ -6,7 +6,7 @@ françaises, **suit les annonces dans un tableur**, **rédige des messages de co
 
 > Adapté du projet [london-property-hunt-public](https://github.com/mikepapadim/london-property-hunt-public)
 > pour le marché **français**, secteur **Monaco et communes limitrophes + littoral (Menton → La Trinité)**,
-> **logement entier** (studio / T1 / T2), **≤ 1 500 € charges comprises**.
+> **logement entier** (T2 / T3 / etc., 2 pièces et plus), **≤ 1 500 € charges comprises**.
 
 ---
 
@@ -43,13 +43,16 @@ Loc-Hunt/
 ## Pré-requis
 
 - **Claude Code** (CLI ou app) — [claude.ai/code](https://claude.ai/code)
-- **Claude dans Chrome** (extension MCP) — automatisation navigateur (LeBonCoin, PAP…)
-- **Connecteur Gmail MCP** — création/envoi de l'email
+- **Connecteur Gmail MCP** — lecture des alertes des plateformes (mode `email`) + envoi du récapitulatif
 - **Python 3 + openpyxl** — mise à jour du tableur (`pip install openpyxl`)
 - Un compte Gmail auquel accorder l'accès MCP
+- *(mode `navigateur` uniquement)* **Claude dans Chrome** *ou* **Playwright** — automatisation du navigateur
 
-> **Aucune clé API n'est nécessaire** pour la version de base : les plateformes sont lues via le navigateur.
-> Jinka est optionnel (voir `config.example.md`) et ne demande pas de clé, mais une connexion ou des alertes email.
+> **Deux modes de collecte** (voir `config.md` → `MODE_RECHERCHE`) :
+> - **`email`** *(recommandé, sans Chrome)* — vous créez des alertes sur les plateformes, la skill les lit via Gmail.
+> - **`navigateur`** — la skill ouvre les sites elle-même (plus complet, mais protections anti-bot).
+>
+> **Aucune clé API n'est nécessaire.** Jinka est optionnel (alertes email ou connexion — pas de clé).
 
 ---
 
@@ -63,8 +66,9 @@ cd loc-hunt
 cp config.example.md config.md
 ```
 
-Éditez `config.md` — nom, dossier locataire (revenus/garant), communes, budget, email.
-Les valeurs sont déjà pré-remplies pour « logement entier ≤ 1 500 € CC, secteur Monaco » : ajustez surtout la section « Vous ».
+Éditez `config.md` — nom, dossier locataire (revenus/garant), communes, budget, email, et `MODE_RECHERCHE`.
+Les valeurs sont déjà pré-remplies pour « logement entier T2+ ≤ 1 500 € CC, secteur Monaco » : ajustez surtout la section « Vous ».
+En **mode `email`** (recommandé), créez aussi vos alertes sur les plateformes + un label Gmail (voir `config.md` / `guide.md`).
 
 ### 2. Créer votre tableur
 
@@ -97,7 +101,7 @@ Dans Claude Code, `/schedule` pour un lancement 2×/jour :
 
 ## Comment fonctionne la recherche
 
-- **Cible :** logement entier — studio / T1 / T2, meublé **ou** non meublé, **longue durée** (location à l'année)
+- **Cible :** logement entier — T2 / T3 / etc. (2 pièces et plus), meublé **ou** non meublé, **longue durée** (location à l'année)
 - **Exclusions strictes :** locations saisonnières / vacances / courte durée / meublé de tourisme
 - **Budget :** ≤ 1 500 € charges comprises (léger dépassement toléré mais marqué LOW)
 - **Plateformes :** LeBonCoin + PAP (particuliers, sans frais d'agence) + Bien'ici + SeLoger (+ Logic-Immo / Jinka en option)
@@ -146,4 +150,4 @@ plateformes ; pour repasser en colocation, réactivez les filtres colocataires (
 
 ---
 
-*Construit avec Claude Code + Claude dans Chrome + Gmail MCP — adapté de london-property-hunt-public.*
+*Construit avec Claude Code + Gmail MCP (+ Claude dans Chrome / Playwright en option) — adapté de london-property-hunt-public.*

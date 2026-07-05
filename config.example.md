@@ -56,10 +56,25 @@ LOYER_MAX_HORS_CHARGES=1400   # si le loyer est affiché hors charges
 
 ```
 TYPE_LOGEMENT=entier                 # logement entier (pas de colocation)
-TYPES_BIEN=studio, T1, T2            # appartement entier ; ajoutez « maison » si voulu
+TYPES_BIEN=T2, T3, etc.              # 2 pièces et plus ; ajoutez « maison » si voulu
+PIECES_MIN=2                         # nb de pièces minimum (T2 = 2 pièces, T3 = 3, …) — exclut studio/T1
 MEUBLE=indifférent                   # meublé ET non meublé
 DUREE=longue durée (location à l'année)   # EXCLURE saisonnier / vacances / courte durée
 ```
+
+## Mode de recherche
+
+Comment la skill collecte les annonces :
+
+```
+MODE_RECHERCHE=email     # « email » (sans navigateur, recommandé) ou « navigateur »
+```
+
+- **`email`** (recommandé, **sans Chrome**) : vous créez des alertes sur les plateformes ;
+  elles envoient un email à chaque nouvelle annonce ; la skill **lit ces emails via Gmail**,
+  en extrait les annonces, et met à jour le tableur. Aucun navigateur, aucun scraping. Voir `guide.md`.
+- **`navigateur`** : la skill ouvre chaque plateforme (extension *Claude dans Chrome* ou Playwright)
+  et relève les annonces. Plus complet mais se heurte aux protections anti-bot.
 
 ## Dates
 
@@ -95,18 +110,36 @@ mkdir -p ~/loc-hunt-cote-azur/outreach
 
 ---
 
-## URLs de recherche par plateforme
+## Alertes email (si `MODE_RECHERCHE=email`)
 
-> Ce sont des **points de départ**. Au lancement, la skill (via l'automatisation navigateur)
+Créez une alerte sur chaque plateforme avec vos critères (communes, loyer ≤ 1 500 €, **T2 et plus**), en
+faisant arriver les emails sur `VOTRE_EMAIL`. Puis, dans Gmail, créez un **filtre** qui applique le label
+ci-dessous à ces emails (la skill lit ce label pour extraire les annonces).
+
+```
+GMAIL_LABEL=Loc-Hunt
+GMAIL_EXPEDITEURS=leboncoin.fr, seloger.com, pap.fr, bienici.com, logic-immo.com, jinka.fr
+GMAIL_FENETRE=3d          # ne relire que les emails des N derniers jours (opérateur newer_than de Gmail)
+```
+
+Comment créer les alertes :
+- **LeBonCoin** : lancez la recherche filtrée → « 🔔 Recevoir les nouveautés / Enregistrer la recherche ».
+- **SeLoger / Logic-Immo / Bien'ici** : créez un compte → « Enregistrer la recherche » → alertes email.
+- **PAP** : « Créer une alerte email » depuis la page de résultats.
+- **Jinka** (agrégateur, recommandé) : une seule alerte couvrant plusieurs sites → voir la section Jinka plus bas.
+
+## URLs de recherche par plateforme (si `MODE_RECHERCHE=navigateur`)
+
+> Ce sont des **points de départ**. Au lancement, la skill (via le navigateur)
 > ouvre chaque plateforme, applique les filtres, trie par **date (plus récent d'abord)**, puis relève les annonces.
 > Vous pouvez régénérer une URL en la construisant depuis le site puis en la collant ici.
 
 ### LeBonCoin (leboncoin.fr) — la plus complète, particuliers + agences
 
-`category=10` = Locations · `real_estate_type=1,2` = maison+appartement · `price=min-1500` · `locations=Commune_CodePostal`
+`category=10` = Locations · `real_estate_type=1,2` = maison+appartement · `rooms=2-max` = 2 pièces et plus (T2+) · `price=min-1500` · `locations=Commune_CodePostal`
 
 ```
-LBC_URL=https://www.leboncoin.fr/recherche?category=10&real_estate_type=1,2&price=min-1500&locations=Beausoleil_06240,Cap-d'Ail_06320,La-Turbie_06320,Roquebrune-Cap-Martin_06190,Villefranche-sur-Mer_06230,Beaulieu-sur-Mer_06310,Èze_06360,Menton_06500,La-Trinité_06340
+LBC_URL=https://www.leboncoin.fr/recherche?category=10&real_estate_type=1,2&rooms=2-max&price=min-1500&locations=Beausoleil_06240,Cap-d'Ail_06320,La-Turbie_06320,Roquebrune-Cap-Martin_06190,Villefranche-sur-Mer_06230,Beaulieu-sur-Mer_06310,Èze_06360,Menton_06500,La-Trinité_06340
 ```
 
 ### PAP (pap.fr) — de particulier à particulier (sans frais d'agence)

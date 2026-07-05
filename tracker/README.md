@@ -25,7 +25,7 @@ Définissez `DOSSIER_RECHERCHE` dans `config.md`. La skill crée le fichier au p
 | Loyer CC (€) | Nombre | Loyer mensuel charges comprises |
 | Charges comprises | Oui/Non/Inconnu | |
 | Surface (m²) | Nombre | |
-| Type | Texte | Studio / T1 / T2 |
+| Type | Texte | T2 / T3 / etc. (2 pièces et plus) |
 | Meublé | Oui/Non/Inconnu | |
 | Disponible le | Date | Date de disponibilité |
 | DPE | Texte | A–G si affiché |
