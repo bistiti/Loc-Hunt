@@ -30,8 +30,8 @@ Fais tout automatiquement — aucun humain présent. Va au bout de chaque étape
 - PRIORITAIRES (→ HIGH) : [ZONES_PRIORITAIRES]
 - SECONDAIRES (→ MEDIUM) : [ZONES_SECONDAIRES]
 - À ÉVITER (→ IGNORER) : [ZONES_A_EVITER] — rejeter toute annonce dans ces quartiers/zones.
-  ⚠️ L'Ariane jouxte La Trinité : vérifier l'adresse/quartier exact (une annonce « La Trinité » ou
-  « Nice Est » peut en réalité s'y trouver).
+  ⚠️ Nice est inclus MAIS le quartier de l'Ariane (Nice Est) est EXCLU ; il jouxte La Trinité. Pour toute
+  annonce à Nice Est ou « La Trinité », vérifier l'adresse/quartier exact avant de garder.
 
 ### Filtre budget (obligatoire avant d'ajouter une annonce)
 - Loyer CC ≤ [LOYER_MAX] €  → GARDER ✅
@@ -146,7 +146,7 @@ Enregistrer un .txt par annonce HIGH dans [DOSSIER_RECHERCHE]/outreach/
 | `[VOTRE_PROFIL]` | non-fumeur, sans animaux, calme | config.md |
 | `[VOTRE_TELEPHONE]` | +33 6 … | config.md |
 | `[ZONES_PRIORITAIRES]` | Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Monaco | config.md |
-| `[ZONES_SECONDAIRES]` | Menton, Èze, Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité | config.md |
+| `[ZONES_SECONDAIRES]` | Nice (hors Ariane), Menton, Èze, Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité | config.md |
 | `[ZONES_A_EVITER]` | quartier de l'Ariane (Nice Est) | config.md |
 | `[LOYER_MAX]` | 1500 | config.md |
 | `[EMMENAGEMENT]` | Dès que possible | config.md |

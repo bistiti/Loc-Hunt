@@ -39,13 +39,13 @@ Les zones **secondaires** = le reste du littoral demandé. Réordonnez selon vos
 
 ```
 ZONES_PRIORITAIRES=Beausoleil (06240), Cap-d'Ail (06320), Roquebrune-Cap-Martin (06190), La Turbie (06320), Monaco (98000)
-ZONES_SECONDAIRES=Menton (06500), Èze (06360), Villefranche-sur-Mer (06230), Beaulieu-sur-Mer (06310), La Trinité (06340)
+ZONES_SECONDAIRES=Nice (06000–06300, hors Ariane), Menton (06500), Èze (06360), Villefranche-sur-Mer (06230), Beaulieu-sur-Mer (06310), La Trinité (06340)
 ZONES_A_EVITER=quartier de l'Ariane (Nice Est, 06300)
 ```
 
-> ⚠️ `ZONES_A_EVITER` : la skill **rejette** toute annonce située dans ces quartiers/zones. Le quartier de
-> l'**Ariane** jouxte La Trinité : une annonce affichée « La Trinité » ou « Nice Est » peut en fait s'y trouver
-> — vérifiez l'adresse/le quartier exact avant de valider.
+> ⚠️ `ZONES_A_EVITER` : la skill **rejette** toute annonce située dans ces quartiers/zones. **Nice est inclus**,
+> mais le quartier de l'**Ariane** (Nice Est) en est **exclu** — et il jouxte La Trinité. Une annonce affichée
+> « Nice », « Nice Est » ou « La Trinité » peut en fait s'y trouver : vérifiez l'adresse/le quartier exact.
 
 > ⚠️ **Monaco (98000)** : loyers très élevés — un logement entier < 1 500 € y est quasi introuvable.
 > Il reste dans la liste au cas où, mais l'essentiel des résultats viendra des communes françaises limitrophes.
@@ -144,7 +144,7 @@ Comment créer les alertes :
 `category=10` = Locations · `real_estate_type=1,2` = maison+appartement · `rooms=2-max` = 2 pièces et plus (T2+) · `price=min-1500` · `locations=Commune_CodePostal`
 
 ```
-LBC_URL=https://www.leboncoin.fr/recherche?category=10&real_estate_type=1,2&rooms=2-max&price=min-1500&locations=Beausoleil_06240,Cap-d'Ail_06320,La-Turbie_06320,Roquebrune-Cap-Martin_06190,Villefranche-sur-Mer_06230,Beaulieu-sur-Mer_06310,Èze_06360,Menton_06500,La-Trinité_06340
+LBC_URL=https://www.leboncoin.fr/recherche?category=10&real_estate_type=1,2&rooms=2-max&price=min-1500&locations=Beausoleil_06240,Cap-d'Ail_06320,La-Turbie_06320,Roquebrune-Cap-Martin_06190,Villefranche-sur-Mer_06230,Beaulieu-sur-Mer_06310,Èze_06360,Menton_06500,Nice_06000,La-Trinité_06340
 ```
 
 ### PAP (pap.fr) — de particulier à particulier (sans frais d'agence)
@@ -191,8 +191,8 @@ JINKA_EMAIL_EXPEDITEUR=jinka.fr          # domaine expéditeur des alertes (déj
 
 **Créer votre alerte Jinka (méthode email, ~3 min) :**
 1. Compte gratuit sur https://www.jinka.fr → « Créer une alerte ».
-2. Secteur : ajoutez vos communes (Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Menton, Èze,
-   Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité) — **excluez l'Ariane** si l'option existe.
+2. Secteur : ajoutez vos communes (Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Nice, Menton, Èze,
+   Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité) — **excluez le quartier de l'Ariane** si l'option existe.
 3. Critères : location, **T2 et plus**, loyer max 1 500 €, longue durée.
 4. Réception : par **email** sur `VOTRE_EMAIL` (fréquence temps réel / quotidien).
 5. Vérifiez que votre filtre Gmail applique bien le label `GMAIL_LABEL` aux emails `jinka.fr`.

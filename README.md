@@ -5,7 +5,7 @@ françaises, **suit les annonces dans un tableur**, **rédige des messages de co
 **vous envoie un email récapitulatif** — le tout automatiquement.
 
 > Adapté du projet [london-property-hunt-public](https://github.com/mikepapadim/london-property-hunt-public)
-> pour le marché **français**, secteur **Monaco et communes limitrophes + littoral (Menton → La Trinité)**,
+> pour le marché **français**, secteur **Monaco et communes limitrophes + Nice et littoral (Menton → La Trinité)**,
 > **logement entier** (appartement ou maison, T2 / T3 / etc., 2 pièces et plus), **≤ 1 500 € charges comprises**.
 
 ---
@@ -116,7 +116,7 @@ Dans Claude Code, `/schedule` pour un lancement 2×/jour :
 | Priorité | Règle |
 |---|---|
 | 🟢 **HIGH** | Commune **limitrophe de Monaco** (Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Monaco) + ≤ 1 500 € CC + longue durée + dispo rapide |
-| 🟡 **MEDIUM** | Commune du **littoral** (Menton, Èze, Villefranche, Beaulieu, La Trinité) dans le budget, ou commune prioritaire avec un bémol (charges à confirmer, DPE F/G, dispo lointaine) |
+| 🟡 **MEDIUM** | Commune du **littoral** (Nice hors Ariane, Menton, Èze, Villefranche, Beaulieu, La Trinité) dans le budget, ou commune prioritaire avec un bémol (charges à confirmer, DPE F/G, dispo lointaine) |
 | ⚪ **LOW** | Léger dépassement de budget, disponibilité lointaine, ou hors des communes listées |
 
 Couleurs dans le tableur : HIGH = vert (`E2EFDA`), MEDIUM = jaune (`FFFFC7`), LOW = rouge (`FCE4D6`).
