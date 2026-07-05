@@ -60,11 +60,16 @@ Loc-Hunt/
 
 ### 1. Cloner et configurer
 
+**Sur votre ordinateur** (Terminal / Invite de commandes), récupérez le dépôt et entrez dans le dossier créé :
+
 ```bash
-git clone https://github.com/bistiti/loc-hunt
-cd loc-hunt
+git clone https://github.com/bistiti/Loc-Hunt
+cd Loc-Hunt
 cp config.example.md config.md
 ```
+
+Toutes les commandes suivantes se lancent **dans ce dossier `Loc-Hunt`** — c'est là que se trouvent
+`config.example.md`, `skill.md`, `scripts/`, etc.
 
 Éditez `config.md` — nom, dossier locataire (revenus/garant), communes, budget, email, et `MODE_RECHERCHE`.
 Les valeurs sont déjà pré-remplies pour « logement entier T2+ ≤ 1 500 € CC, secteur Monaco » : ajustez surtout la section « Vous ».

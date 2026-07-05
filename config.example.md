@@ -40,7 +40,12 @@ Les zones **secondaires** = le reste du littoral demandé. Réordonnez selon vos
 ```
 ZONES_PRIORITAIRES=Beausoleil (06240), Cap-d'Ail (06320), Roquebrune-Cap-Martin (06190), La Turbie (06320), Monaco (98000)
 ZONES_SECONDAIRES=Menton (06500), Èze (06360), Villefranche-sur-Mer (06230), Beaulieu-sur-Mer (06310), La Trinité (06340)
+ZONES_A_EVITER=quartier de l'Ariane (Nice Est, 06300)
 ```
+
+> ⚠️ `ZONES_A_EVITER` : la skill **rejette** toute annonce située dans ces quartiers/zones. Le quartier de
+> l'**Ariane** jouxte La Trinité : une annonce affichée « La Trinité » ou « Nice Est » peut en fait s'y trouver
+> — vérifiez l'adresse/le quartier exact avant de valider.
 
 > ⚠️ **Monaco (98000)** : loyers très élevés — un logement entier < 1 500 € y est quasi introuvable.
 > Il reste dans la liste au cas où, mais l'essentiel des résultats viendra des communes françaises limitrophes.
@@ -169,18 +174,28 @@ BIENICI_URL=https://www.bienici.com/recherche/location/beausoleil-06240?prix-max
 LOGICIMMO_URL=https://www.logic-immo.com/location-immobilier-alpes-maritimes-06,00_1/options/groupprptypesids=1,2/pricemax=1500
 ```
 
-### Jinka (jinka.fr) — OPTIONNEL, agrégateur (LBC + PAP + SeLoger + Logic-Immo…)
+### Jinka (jinka.fr) — ACTIVÉ, agrégateur (LBC + PAP + SeLoger + Logic-Immo…)
 
-Jinka n'a **pas d'API publique**. Deux façons de l'intégrer :
-1. **Alertes email** (recommandé) : créez une alerte Jinka sur ces communes/budget, faites-la arriver
-   sur `VOTRE_EMAIL`, et la skill lira ces emails via Gmail pour en extraire les annonces.
-2. **Connexion navigateur** : la skill se connecte à votre compte Jinka en session.
+Jinka regroupe plusieurs plateformes en **une seule alerte** : c'est la source principale recommandée en
+mode `email`. Jinka n'a **pas d'API publique** — deux façons de l'intégrer :
+1. **Alertes email** (recommandé, sans identifiants) : créez une alerte Jinka sur vos communes/budget/T2+,
+   faites-la arriver sur `VOTRE_EMAIL`, et la skill lit ces emails via Gmail pour en extraire les annonces.
+2. **Connexion navigateur** : la skill se connecte à votre compte Jinka en session (mode `navigateur`).
 
 ```
-JINKA_ACTIF=non
-JINKA_EMAIL_EXPEDITEUR=alertes@jinka.fr   # si vous activez le mode « alertes email »
-# JINKA_LOGIN / JINKA_MDP → à me communiquer séparément SEULEMENT si vous choisissez le mode connexion
+JINKA_ACTIF=oui
+JINKA_METHODE=email                      # « email » (recommandé) ou « connexion »
+JINKA_EMAIL_EXPEDITEUR=jinka.fr          # domaine expéditeur des alertes (déjà couvert par GMAIL_EXPEDITEURS)
+# JINKA_LOGIN / JINKA_MDP → à me communiquer séparément UNIQUEMENT si JINKA_METHODE=connexion (jamais committé)
 ```
+
+**Créer votre alerte Jinka (méthode email, ~3 min) :**
+1. Compte gratuit sur https://www.jinka.fr → « Créer une alerte ».
+2. Secteur : ajoutez vos communes (Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Menton, Èze,
+   Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité) — **excluez l'Ariane** si l'option existe.
+3. Critères : location, **T2 et plus**, loyer max 1 500 €, longue durée.
+4. Réception : par **email** sur `VOTRE_EMAIL` (fréquence temps réel / quotidien).
+5. Vérifiez que votre filtre Gmail applique bien le label `GMAIL_LABEL` aux emails `jinka.fr`.
 
 ---
 

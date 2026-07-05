@@ -29,6 +29,9 @@ Fais tout automatiquement — aucun humain présent. Va au bout de chaque étape
 ### Zones
 - PRIORITAIRES (→ HIGH) : [ZONES_PRIORITAIRES]
 - SECONDAIRES (→ MEDIUM) : [ZONES_SECONDAIRES]
+- À ÉVITER (→ IGNORER) : [ZONES_A_EVITER] — rejeter toute annonce dans ces quartiers/zones.
+  ⚠️ L'Ariane jouxte La Trinité : vérifier l'adresse/quartier exact (une annonce « La Trinité » ou
+  « Nice Est » peut en réalité s'y trouver).
 
 ### Filtre budget (obligatoire avant d'ajouter une annonce)
 - Loyer CC ≤ [LOYER_MAX] €  → GARDER ✅
@@ -66,7 +69,8 @@ Titre · Commune · Code postal · Loyer CC · Charges comprises (oui/non) · Su
 · Meublé (oui/non) · Disponible le · DPE si affiché · Contact (agence/particulier + tél si visible) · URL.
 
 Filtres obligatoires avant d'ajouter : **2 pièces minimum** (rejeter studio/T1), **longue durée** (rejeter
-saisonnier/vacances), **loyer ≤ [LOYER_MAX] €** (jusqu'à +150 € toléré → priorité LOW).
+saisonnier/vacances), **loyer ≤ [LOYER_MAX] €** (jusqu'à +150 € toléré → priorité LOW),
+**hors zones à éviter** (rejeter [ZONES_A_EVITER]).
 
 ## TRACKER
 Fichier : [DOSSIER_RECHERCHE]/loc_hunt.xlsx — feuille : `Logements`
@@ -143,6 +147,7 @@ Enregistrer un .txt par annonce HIGH dans [DOSSIER_RECHERCHE]/outreach/
 | `[VOTRE_TELEPHONE]` | +33 6 … | config.md |
 | `[ZONES_PRIORITAIRES]` | Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Monaco | config.md |
 | `[ZONES_SECONDAIRES]` | Menton, Èze, Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité | config.md |
+| `[ZONES_A_EVITER]` | quartier de l'Ariane (Nice Est) | config.md |
 | `[LOYER_MAX]` | 1500 | config.md |
 | `[EMMENAGEMENT]` | Dès que possible | config.md |
 | `[VOTRE_EMAIL]` | jfds.cie@gmail.com | config.md |

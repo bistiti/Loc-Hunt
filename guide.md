@@ -30,6 +30,9 @@ messages de contact, et envoie un email récap actionnable depuis le téléphone
   entier < 1 500 € y est quasi introuvable → l'essentiel des résultats vient des **communes françaises limitrophes**.
 - **Communes limitrophes de Monaco** (idéales si vous y travaillez) : **Beausoleil, Cap-d'Ail,
   Roquebrune-Cap-Martin, La Turbie** → ce sont les zones **HIGH**.
+- **Zone à éviter** : le **quartier de l'Ariane** (Nice Est) jouxte La Trinité. Il est **exclu**
+  (`ZONES_A_EVITER`) ; attention, une annonce « La Trinité » ou « Nice Est » peut en réalité s'y trouver —
+  vérifiez l'adresse exacte avant de valider.
 - **Piège n°1 : les locations saisonnières.** La Côte d'Azur est saturée d'annonces vacances / courte durée /
   meublé de tourisme. La skill les **exclut explicitement** (on cherche de la **longue durée, à l'année**).
 - **Piège n°2 : les charges.** Beaucoup d'annonces affichent le loyer **hors charges**. La skill note quand
@@ -92,15 +95,17 @@ ne suffit pas. Le mode `navigateur` de la skill marche indifféremment avec *Cla
 
 ## Aller plus loin
 
-### Jinka (agrégateur) — optionnel
+### Jinka (agrégateur) — ACTIVÉ (source principale en mode email)
 Jinka regroupe LeBonCoin, PAP, SeLoger, Logic-Immo… en un seul flux avec alertes. Pas d'API publique.
-Deux intégrations possibles (voir `config.md`) :
-- **Alertes email → Gmail** : créez une alerte Jinka, la skill lit les emails d'alerte et en extrait les annonces.
-  C'est l'option la plus simple et sans identifiants à partager.
-- **Connexion navigateur** : la skill se connecte à votre compte Jinka. Nécessite vos identifiants
-  (à fournir en local uniquement, jamais dans un fichier committé).
+Deux intégrations possibles (voir `config.md`, `JINKA_METHODE`) :
+- **Alertes email → Gmail** *(recommandé, `JINKA_METHODE=email`)* : créez une alerte Jinka, la skill lit les
+  emails d'alerte et en extrait les annonces. Le plus simple, **sans identifiants à partager**. Étapes
+  détaillées dans `config.md` (section Jinka).
+- **Connexion navigateur** *(`JINKA_METHODE=connexion`)* : la skill se connecte à votre compte Jinka.
+  Nécessite vos identifiants (à fournir en local uniquement, jamais dans un fichier committé).
 
-Dites-moi si vous voulez l'activer, et par quelle méthode.
+Avec une seule alerte Jinka bien réglée (communes + T2+ + ≤ 1 500 €, l'Ariane exclue), vous couvrez déjà
+l'essentiel des plateformes.
 
 ### Autres pistes
 - **Filtre transport** : prioriser les communes bien reliées à Monaco (bus Lignes d'Azur / TER Menton–Monaco–Nice).
