@@ -1,0 +1,31 @@
+# Config perso — ne jamais committer
+config.md
+
+# Sorties générées — données personnelles
+outreach/*.txt
+*.xlsx
+*.xlsm
+*.csv
+
+# Identifiants / secrets (Jinka, etc.)
+.env
+secrets.md
+*.local
+
+# Claude Code — réglages personnels (permissions locales)
+.claude/settings.local.json
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
