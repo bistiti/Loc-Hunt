@@ -65,8 +65,31 @@ Le script `scripts/run_loc_hunt.sh` lance la commande en mode non-interactif et 
 
 Les logs de chaque run vont dans `~/loc-hunt-cote-azur/loc-hunt.log`.
 
-> Windows : utilisez le **Planificateur de tâches** en pointant sur `run_loc_hunt.sh` via WSL/Git-Bash,
-> ou créez l'équivalent PowerShell qui appelle `claude --print "/loc-hunt"`.
+### Option B (Windows) — Planificateur de tâches
+
+Sous Windows, `cron`/`chmod` n'existent pas : utilisez le **Planificateur de tâches** avec le script
+PowerShell `scripts/run_loc_hunt.ps1` (rien à rendre « exécutable »).
+
+1. **Testez d'abord à la main** (PowerShell, dans le dossier du dépôt) :
+   ```powershell
+   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_loc_hunt.ps1 matin
+   Get-Content "$HOME\loc-hunt-cote-azur\loc-hunt.log" -Tail 40
+   ```
+2. **Créez les 3 tâches** (adaptez le chemin `C:\Users\...\Loc-Hunt`) :
+   ```powershell
+   schtasks /Create /TN "LocHunt-matin" /SC DAILY /ST 09:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 matin"
+   schtasks /Create /TN "LocHunt-midi"  /SC DAILY /ST 13:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 midi"
+   schtasks /Create /TN "LocHunt-soir"  /SC DAILY /ST 19:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 soir"
+   ```
+3. **Vérifier / supprimer** une tâche :
+   ```powershell
+   schtasks /Query  /TN "LocHunt-matin"
+   schtasks /Delete /TN "LocHunt-matin" /F
+   ```
+
+> Le PC doit être allumé à l'heure prévue. Pour un run même session verrouillée, ouvrez le Planificateur
+> (interface) et cochez « Exécuter même si l'utilisateur n'est pas connecté ». Si Python n'est pas trouvé
+> pendant le run, autorisez-le via `/permissions` (sous Windows la commande peut être `python` ou `py -3`).
 
 ### Option C — `/loop` (session ouverte)
 
@@ -103,7 +126,8 @@ Python arbitraire** n'est autorisée : par sécurité, toutes les écritures du 
 ## Arrêter la routine
 
 - Option A : `/schedule list` puis `/schedule delete [id]`.
-- Option B : `crontab -e` et supprimez les deux lignes.
+- Option B (cron, Linux/macOS) : `crontab -e` et supprimez les trois lignes.
+- Option B (Windows) : `schtasks /Delete /TN "LocHunt-matin" /F` (idem pour `-midi` et `-soir`).
 - Option C : fermez la session ou arrêtez la boucle.
 
 Une fois le logement trouvé, pensez à couper la routine 🎉

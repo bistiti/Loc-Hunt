@@ -39,7 +39,8 @@ Loc-Hunt/
 ├── scripts/
 │   ├── creer_tracker.py   ← crée le fichier .xlsx (optionnel — la skill le fait sinon)
 │   ├── update_tracker.py  ← ajoute/dédoublonne les annonces dans le tableur (script fixe)
-│   └── run_loc_hunt.sh    ← lance /loc-hunt en non-interactif (pour cron)
+│   ├── run_loc_hunt.sh    ← lance /loc-hunt en non-interactif (cron, Linux/macOS)
+│   └── run_loc_hunt.ps1   ← idem sous Windows (Planificateur de tâches)
 ├── outreach/              ← messages de contact générés (ignoré par git)
 └── .gitignore
 ```
@@ -112,6 +113,9 @@ voir **`ROUTINE.md`**. Exemple (cron, le plus robuste) :
 0 13 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh midi
 0 19 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
 ```
+
+> **Windows** : pas de `cron` — utilisez le **Planificateur de tâches** avec `scripts/run_loc_hunt.ps1`
+> (commandes `schtasks` prêtes à copier dans **`ROUTINE.md`**).
 
 ---
 

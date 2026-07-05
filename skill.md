@@ -87,6 +87,7 @@ Fichier : [DOSSIER_RECHERCHE]/loc_hunt.xlsx — feuille : `Logements`.
    `python3 scripts/update_tracker.py "[DOSSIER_RECHERCHE]/nouvelles.json" "[DOSSIER_RECHERCHE]/loc_hunt.xlsx"`
    Le script ajoute les lignes (Statut=`NOUVEAU 🔴`, Trouvé le=aujourd'hui), colore selon la priorité,
    ignore les doublons d'URL, et crée le fichier s'il n'existe pas.
+   (Sous Windows, si `python3` est introuvable, utilise `python` ou `py -3`.)
 
 Priorité :
 - HIGH   : commune prioritaire [ZONES_PRIORITAIRES] + loyer ≤ [LOYER_MAX] € + longue durée + dispo rapide
