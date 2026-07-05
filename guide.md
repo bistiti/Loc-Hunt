@@ -37,7 +37,7 @@ messages de contact, et envoie un email récap actionnable depuis le téléphone
   meublé de tourisme. La skill les **exclut explicitement** (on cherche de la **longue durée, à l'année**).
 - **Piège n°2 : les charges.** Beaucoup d'annonces affichent le loyer **hors charges**. La skill note quand
   les charges ne sont pas précisées et tolère un léger dépassement (marqué LOW) plutôt que d'écarter à tort.
-- **Marché tendu = réactivité.** Les bons biens partent en quelques heures. D'où l'email récap 2×/jour avec
+- **Marché tendu = réactivité.** Les bons biens partent en quelques heures. D'où l'email récap plusieurs fois par jour avec
   message de contact prêt à envoyer, et l'accent mis sur le **dossier complet d'avance**.
 
 ---

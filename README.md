@@ -38,6 +38,7 @@ Loc-Hunt/
 │   └── README.md          ← schéma des colonnes du tableur
 ├── scripts/
 │   ├── creer_tracker.py   ← crée le fichier .xlsx (optionnel — la skill le fait sinon)
+│   ├── update_tracker.py  ← ajoute/dédoublonne les annonces dans le tableur (script fixe)
 │   └── run_loc_hunt.sh    ← lance /loc-hunt en non-interactif (pour cron)
 ├── outreach/              ← messages de contact générés (ignoré par git)
 └── .gitignore
@@ -101,14 +102,15 @@ La commande `/loc-hunt` est **déjà prête** (fichier `.claude/commands/loc-hun
 
 Elle lit `config.md`, suit `skill.md`, met à jour le tableur et envoie le récap. Détails dans `ROUTINE.md`.
 
-### 4. Planifier (matin + soir)
+### 4. Planifier (3×/jour : 9 h, 13 h, 19 h)
 
-Pour lancer `/loc-hunt` automatiquement 2×/jour — planificateur Claude Code, **cron système**, ou `/loop` :
+Pour lancer `/loc-hunt` automatiquement — planificateur Claude Code, **cron système**, ou `/loop` :
 voir **`ROUTINE.md`**. Exemple (cron, le plus robuste) :
 
 ```cron
 0 9  * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh matin
-0 18 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
+0 13 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh midi
+0 19 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
 ```
 
 ---

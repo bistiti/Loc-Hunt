@@ -2,7 +2,7 @@
 # Routine Loc-Hunt en mode non-interactif (pour cron / tâche planifiée).
 #
 # Usage :
-#   scripts/run_loc_hunt.sh [matin|soir]
+#   scripts/run_loc_hunt.sh [matin|midi|soir]
 #
 # Pré-requis :
 #   - le CLI `claude` (Claude Code) dans le PATH
@@ -28,6 +28,6 @@ echo "=== $(date '+%F %T') — début run Loc-Hunt (${SLOT:-auto}) ===" >> "$LOG
 CLAUDE_FLAGS="${CLAUDE_FLAGS:-}"
 
 # shellcheck disable=SC2086
-claude --print $CLAUDE_FLAGS "/loc-hunt ${SLOT}" >> "$LOG" 2>&1
+claude --print --permission-mode acceptEdits $CLAUDE_FLAGS "/loc-hunt ${SLOT}" >> "$LOG" 2>&1
 
 echo "=== $(date '+%F %T') — fin run Loc-Hunt ===" >> "$LOG"

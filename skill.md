@@ -73,11 +73,20 @@ saisonnier/vacances), **loyer ≤ [LOYER_MAX] €** (jusqu'à +150 € toléré 
 **hors zones à éviter** (rejeter [ZONES_A_EVITER]).
 
 ## TRACKER
-Fichier : [DOSSIER_RECHERCHE]/loc_hunt.xlsx — feuille : `Logements`
+Fichier : [DOSSIER_RECHERCHE]/loc_hunt.xlsx — feuille : `Logements`.
+**Toutes les écritures passent par le script fixe `scripts/update_tracker.py`** (aucun code Python ad hoc).
 
-Déduplication : charger toutes les URLs de la colonne URL dans un set Python au début.
-Toute annonce dont l'URL existe déjà est ignorée silencieusement (idempotent — relançable sans doublon).
-Nouvelles lignes : Statut = `NOUVEAU 🔴`, Trouvé le = date du jour.
+1. Déduplication (au début) — récupère les URLs déjà connues :
+   `python3 scripts/update_tracker.py --list-urls "[DOSSIER_RECHERCHE]/loc_hunt.xlsx"`
+   Ignore toute annonce dont l'URL figure déjà dans cette liste (idempotent — relançable sans doublon).
+
+2. Enregistrement (à la fin) — écris les NOUVELLES annonces retenues dans un JSON
+   `[DOSSIER_RECHERCHE]/nouvelles.json` (liste d'objets ; clés : titre, plateforme, url, commune,
+   code_postal, loyer, charges_comprises, surface, type, meuble, disponible, dpe, contact, notes, priorite),
+   puis lance :
+   `python3 scripts/update_tracker.py "[DOSSIER_RECHERCHE]/nouvelles.json" "[DOSSIER_RECHERCHE]/loc_hunt.xlsx"`
+   Le script ajoute les lignes (Statut=`NOUVEAU 🔴`, Trouvé le=aujourd'hui), colore selon la priorité,
+   ignore les doublons d'URL, et crée le fichier s'il n'existe pas.
 
 Priorité :
 - HIGH   : commune prioritaire [ZONES_PRIORITAIRES] + loyer ≤ [LOYER_MAX] € + longue durée + dispo rapide
@@ -91,7 +100,7 @@ Couleurs de ligne : HIGH = E2EFDA (vert), MEDIUM = FFFFC7 (jaune), LOW = FCE4D6 
 [VOTRE_NOM] peut n'avoir que son téléphone. L'email doit être actionnable sans ouvrir aucun autre fichier.
 
 Créer un brouillon via le connecteur Gmail (contentType: text/html), À : [VOTRE_EMAIL]
-Objet : 🏠 Loc-Hunt Côte d'Azur — {DATE} ({matin/soir}) — {N} nouvelles annonces
+Objet : 🏠 Loc-Hunt Côte d'Azur — {DATE} ({matin/midi/soir}) — {N} nouvelles annonces
 
 Sections du corps HTML :
 

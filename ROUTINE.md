@@ -1,7 +1,7 @@
 # Routine `/loc-hunt`
 
 Cette page explique comment **lancer** la recherche d'un simple `/loc-hunt`, et comment la **planifier**
-(matin + soir automatiquement).
+(3×/jour : 9 h, 13 h, 19 h).
 
 ---
 
@@ -18,6 +18,7 @@ ou en précisant le créneau :
 
 ```
 /loc-hunt matin
+/loc-hunt midi
 /loc-hunt soir
 ```
 
@@ -29,16 +30,16 @@ de contact et envoie le récapitulatif. Si `config.md` est manquant, elle vous l
 
 ---
 
-## Planifier la routine (matin + soir)
+## Planifier la routine (3×/jour : 9 h, 13 h, 19 h)
 
 Trois options, de la plus simple à la plus autonome.
 
 ### Option A — Planificateur intégré de Claude Code
 
-Si votre Claude Code propose la planification, programmez deux runs par jour (9 h et 18 h) :
+Si votre Claude Code propose la planification, programmez trois runs par jour (9 h, 13 h et 19 h) :
 
 ```
-/schedule 0 9,18 * * * /loc-hunt
+/schedule 0 9,13,19 * * * /loc-hunt
 ```
 
 Pour lister / supprimer : `/schedule list` puis `/schedule delete [id]`.
@@ -55,10 +56,11 @@ Le script `scripts/run_loc_hunt.sh` lance la commande en mode non-interactif et 
    ```bash
    crontab -e
    ```
-3. Ajoutez deux lignes (adaptez le chemin absolu vers votre dossier `Loc-Hunt`) :
+3. Ajoutez trois lignes (adaptez le chemin absolu vers votre dossier `Loc-Hunt`) :
    ```cron
    0 9  * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh matin
-   0 18 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
+   0 13 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh midi
+   0 19 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
    ```
 
 Les logs de chaque run vont dans `~/loc-hunt-cote-azur/loc-hunt.log`.
@@ -80,24 +82,21 @@ Pratique pour tester, moins adapté qu'un cron pour une routine quotidienne de f
 
 ## Permissions pour l'exécution sans invite
 
-En mode non-interactif (Options B/C), Claude Code ne doit pas s'arrêter pour demander l'autorisation d'un
-outil. Accordez **vous-même**, après relecture, les permissions nécessaires — deux façons simples :
+Un fichier **`.claude/settings.json` est fourni** dans le dépôt : il pré-autorise (relisez-le !) uniquement
+les outils dont la routine a besoin en mode `email` — votre connecteur **Gmail**, les deux **scripts fixes**
+`scripts/creer_tracker.py` et `scripts/update_tracker.py`, et la création de dossiers. **Aucune exécution de
+Python arbitraire** n'est autorisée : par sécurité, toutes les écritures du tableur passent par
+`update_tracker.py`.
 
-- Lancez `/loc-hunt` **une fois en interactif** et, à chaque demande, choisissez « toujours autoriser » :
-  Claude Code mémorise vos choix pour les runs suivants.
-- Ou utilisez la commande **`/permissions`** de Claude Code pour ajouter/relire les règles d'autorisation.
+- Le lanceur `run_loc_hunt.sh` ajoute `--permission-mode acceptEdits` : les écritures de fichiers (tableur,
+  messages de contact) sont acceptées automatiquement, sans élargir la liste d'outils autorisés.
+- Les **noms des outils MCP** listés dans `settings.json` sont ceux du connecteur Gmail de la session de départ ;
+  **ajustez-les** s'ils diffèrent chez vous (la commande **`/permissions`** affiche les noms exacts).
+- En **mode `navigateur`**, ajoutez les outils de votre extension *Claude dans Chrome* ou serveur MCP Playwright.
 
-Outils que la routine doit pouvoir utiliser :
-- lecture/écriture de fichiers (config, tableur, messages de contact) ;
-- exécution de `python3` (mise à jour du tableur `.xlsx`) ;
-- votre connecteur **Gmail** (lire les alertes + créer/envoyer le récap) ;
-- en **mode `navigateur`** : votre extension *Claude dans Chrome* ou un serveur MCP Playwright.
-
-> Ces réglages vivent dans `.claude/settings.json` (partageable) ou `.claude/settings.local.json` (personnel,
-> ignoré par git). Passez par `/permissions` plutôt que d'éditer le JSON à la main.
->
-> En dernier recours, le script `run_loc_hunt.sh` accepte une variable `CLAUDE_FLAGS` (mode « tout autoriser »)
-> — à réserver à une machine personnelle et à vos risques.
+> `.claude/settings.json` est partagé (versionné) ; `.claude/settings.local.json` reste personnel (ignoré par
+> git). En dernier recours, `run_loc_hunt.sh` accepte `CLAUDE_FLAGS="--dangerously-skip-permissions"` — à
+> réserver à une machine personnelle et à vos risques.
 
 ---
 
