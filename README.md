@@ -27,13 +27,18 @@ Tourne sur planification (ex. 9 h et 18 h). Effort humain entre deux runs : zér
 ```
 Loc-Hunt/
 ├── README.md              ← vous êtes ici
-├── skill.md               ← la skill Claude Code (le « cerveau » — à coller dans votre setup)
+├── skill.md               ← la skill (le « cerveau » — instructions détaillées)
 ├── config.example.md      ← vos paramètres perso (à copier en config.md)
 ├── guide.md               ← méthode, spécificités Côte d'Azur, conseils
+├── ROUTINE.md             ← lancer /loc-hunt et le planifier (cron / /schedule)
+├── .claude/
+│   └── commands/
+│       └── loc-hunt.md    ← la commande /loc-hunt (prête à l'emploi)
 ├── tracker/
 │   └── README.md          ← schéma des colonnes du tableur
 ├── scripts/
-│   └── creer_tracker.py   ← crée le fichier .xlsx (optionnel — la skill le fait sinon)
+│   ├── creer_tracker.py   ← crée le fichier .xlsx (optionnel — la skill le fait sinon)
+│   └── run_loc_hunt.sh    ← lance /loc-hunt en non-interactif (pour cron)
 ├── outreach/              ← messages de contact générés (ignoré par git)
 └── .gitignore
 ```
@@ -85,21 +90,25 @@ python3 scripts/creer_tracker.py        # crée ~/loc-hunt-cote-azur/loc_hunt.xl
 
 La skill crée aussi le fichier automatiquement au premier run s'il n'existe pas.
 
-### 3. Installer la skill dans Claude Code
+### 3. Lancer la recherche
 
-Copiez le contenu de `skill.md` (le bloc de prompt) comme nouvelle skill dans Claude Code.
-Ou lancez-la manuellement :
-
-```
-claude "Lance Loc-Hunt — parcours toutes les plateformes, mets à jour le tableur, envoie l'email"
-```
-
-### 4. Planifier
-
-Dans Claude Code, `/schedule` pour un lancement 2×/jour :
+La commande `/loc-hunt` est **déjà prête** (fichier `.claude/commands/loc-hunt.md`). Ouvrez le dossier
+`Loc-Hunt` dans Claude Code et tapez :
 
 ```
-/schedule 0 9,18 * * * Lance la skill Loc-Hunt Côte d'Azur
+/loc-hunt
+```
+
+Elle lit `config.md`, suit `skill.md`, met à jour le tableur et envoie le récap. Détails dans `ROUTINE.md`.
+
+### 4. Planifier (matin + soir)
+
+Pour lancer `/loc-hunt` automatiquement 2×/jour — planificateur Claude Code, **cron système**, ou `/loop` :
+voir **`ROUTINE.md`**. Exemple (cron, le plus robuste) :
+
+```cron
+0 9  * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh matin
+0 18 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
 ```
 
 ---

@@ -12,6 +12,9 @@ outreach/*.txt
 secrets.md
 *.local
 
+# Claude Code — réglages personnels (permissions locales)
+.claude/settings.local.json
+
 # macOS
 .DS_Store
 
