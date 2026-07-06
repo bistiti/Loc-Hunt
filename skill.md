@@ -87,6 +87,7 @@ Fichier : [DOSSIER_RECHERCHE]/loc_hunt.xlsx — feuille : `Logements`.
    `python3 scripts/update_tracker.py "[DOSSIER_RECHERCHE]/nouvelles.json" "[DOSSIER_RECHERCHE]/loc_hunt.xlsx"`
    Le script ajoute les lignes (Statut=`NOUVEAU 🔴`, Trouvé le=aujourd'hui), colore selon la priorité,
    ignore les doublons d'URL, et crée le fichier s'il n'existe pas.
+   (Sous Windows, si `python3` est introuvable, utilise `python` ou `py -3`.)
 
 Priorité :
 - HIGH   : commune prioritaire [ZONES_PRIORITAIRES] + loyer ≤ [LOYER_MAX] € + longue durée + dispo rapide
@@ -100,7 +101,7 @@ Couleurs de ligne : HIGH = E2EFDA (vert), MEDIUM = FFFFC7 (jaune), LOW = FCE4D6 
 [VOTRE_NOM] peut n'avoir que son téléphone. L'email doit être actionnable sans ouvrir aucun autre fichier.
 
 Créer un brouillon via le connecteur Gmail (contentType: text/html), À : [VOTRE_EMAIL]
-Objet : 🏠 Loc-Hunt Côte d'Azur — {DATE} ({matin/midi/soir}) — {N} nouvelles annonces
+Objet : 🏠 Loc-Hunt Côte d'Azur — {DATE} ({matin/soir}) — {N} nouvelles annonces
 
 Sections du corps HTML :
 
