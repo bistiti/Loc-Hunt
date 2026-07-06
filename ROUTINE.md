@@ -102,6 +102,15 @@ Pratique pour tester, moins adapté qu'un cron pour une routine quotidienne de f
 
 ## Permissions pour l'exécution sans invite
 
+> ⚠️ **Prérequis indispensable — « truster » le dossier.** Claude Code **ignore** `.claude/settings.json`
+> tant que le dossier n'a pas été approuvé (message « this workspace has not been trusted »). Lancez **une
+> fois** `claude` en interactif dans `Loc-Hunt` et acceptez le dialogue de confiance (ou passez
+> `projects["…/Loc-Hunt"].hasTrustDialogAccepted: true` dans `~/.claude.json`). Sans ça, un run planifié
+> démarre mais **saute tout** : ni mise à jour du tableur, ni email.
+>
+> Les noms d'outils MCP Gmail dépendent de votre connecteur : ici `mcp__claude_ai_Gmail__*`. La commande
+> Python est `python` sous Windows (`python3` sous Linux/macOS) — les deux sont déjà couverts.
+
 Un fichier **`.claude/settings.json` est fourni** dans le dépôt : il pré-autorise (relisez-le !) uniquement
 les outils dont la routine a besoin en mode `email` — votre connecteur **Gmail**, les deux **scripts fixes**
 `scripts/creer_tracker.py` et `scripts/update_tracker.py`, et la création de dossiers. **Aucune exécution de

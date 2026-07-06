@@ -190,7 +190,7 @@ def cmd_append(json_path: pathlib.Path, xlsx_path: pathlib.Path) -> None:
 
     xlsx_path.parent.mkdir(parents=True, exist_ok=True)
     wb.save(xlsx_path)
-    print(f"✅ Ajoutées : {added} | Ignorées (doublons/URL manquante) : {skipped} | "
+    print(f"[OK] Ajoutees : {added} | Ignorees (doublons/URL manquante) : {skipped} | "
           f"Total lignes : {ws.max_row - 1} | Fichier : {xlsx_path}")
 
 
