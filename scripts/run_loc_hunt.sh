@@ -2,7 +2,7 @@
 # Routine Loc-Hunt en mode non-interactif (pour cron / tâche planifiée).
 #
 # Usage :
-#   scripts/run_loc_hunt.sh [matin|midi|soir]
+#   scripts/run_loc_hunt.sh [matin|soir]
 #
 # Pré-requis :
 #   - le CLI `claude` (Claude Code) dans le PATH

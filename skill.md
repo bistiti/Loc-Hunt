@@ -101,7 +101,7 @@ Couleurs de ligne : HIGH = E2EFDA (vert), MEDIUM = FFFFC7 (jaune), LOW = FCE4D6 
 [VOTRE_NOM] peut n'avoir que son téléphone. L'email doit être actionnable sans ouvrir aucun autre fichier.
 
 Créer un brouillon via le connecteur Gmail (contentType: text/html), À : [VOTRE_EMAIL]
-Objet : 🏠 Loc-Hunt Côte d'Azur — {DATE} ({matin/midi/soir}) — {N} nouvelles annonces
+Objet : 🏠 Loc-Hunt Côte d'Azur — {DATE} ({matin/soir}) — {N} nouvelles annonces
 
 Sections du corps HTML :
 

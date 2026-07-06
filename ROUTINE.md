@@ -1,7 +1,7 @@
 # Routine `/loc-hunt`
 
 Cette page explique comment **lancer** la recherche d'un simple `/loc-hunt`, et comment la **planifier**
-(3×/jour : 9 h, 13 h, 19 h).
+(matin 9 h + soir 18 h).
 
 ---
 
@@ -18,7 +18,6 @@ ou en précisant le créneau :
 
 ```
 /loc-hunt matin
-/loc-hunt midi
 /loc-hunt soir
 ```
 
@@ -30,16 +29,16 @@ de contact et envoie le récapitulatif. Si `config.md` est manquant, elle vous l
 
 ---
 
-## Planifier la routine (3×/jour : 9 h, 13 h, 19 h)
+## Planifier la routine (matin 9 h + soir 18 h)
 
 Trois options, de la plus simple à la plus autonome.
 
 ### Option A — Planificateur intégré de Claude Code
 
-Si votre Claude Code propose la planification, programmez trois runs par jour (9 h, 13 h et 19 h) :
+Si votre Claude Code propose la planification, programmez deux runs par jour (9 h et 18 h) :
 
 ```
-/schedule 0 9,13,19 * * * /loc-hunt
+/schedule 0 9,18 * * * /loc-hunt
 ```
 
 Pour lister / supprimer : `/schedule list` puis `/schedule delete [id]`.
@@ -56,11 +55,10 @@ Le script `scripts/run_loc_hunt.sh` lance la commande en mode non-interactif et 
    ```bash
    crontab -e
    ```
-3. Ajoutez trois lignes (adaptez le chemin absolu vers votre dossier `Loc-Hunt`) :
+3. Ajoutez deux lignes (adaptez le chemin absolu vers votre dossier `Loc-Hunt`) :
    ```cron
    0 9  * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh matin
-   0 13 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh midi
-   0 19 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
+   0 18 * * * /chemin/vers/Loc-Hunt/scripts/run_loc_hunt.sh soir
    ```
 
 Les logs de chaque run vont dans `~/loc-hunt-cote-azur/loc-hunt.log`.
@@ -75,11 +73,10 @@ PowerShell `scripts/run_loc_hunt.ps1` (rien à rendre « exécutable »).
    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_loc_hunt.ps1 matin
    Get-Content "$HOME\loc-hunt-cote-azur\loc-hunt.log" -Tail 40
    ```
-2. **Créez les 3 tâches** (adaptez le chemin `C:\Users\...\Loc-Hunt`) :
+2. **Créez les 2 tâches** (adaptez le chemin `C:\Users\...\Loc-Hunt`) :
    ```powershell
    schtasks /Create /TN "LocHunt-matin" /SC DAILY /ST 09:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 matin"
-   schtasks /Create /TN "LocHunt-midi"  /SC DAILY /ST 13:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 midi"
-   schtasks /Create /TN "LocHunt-soir"  /SC DAILY /ST 19:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 soir"
+   schtasks /Create /TN "LocHunt-soir"  /SC DAILY /ST 18:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 soir"
    ```
 3. **Vérifier / supprimer** une tâche :
    ```powershell
@@ -126,8 +123,8 @@ Python arbitraire** n'est autorisée : par sécurité, toutes les écritures du 
 ## Arrêter la routine
 
 - Option A : `/schedule list` puis `/schedule delete [id]`.
-- Option B (cron, Linux/macOS) : `crontab -e` et supprimez les trois lignes.
-- Option B (Windows) : `schtasks /Delete /TN "LocHunt-matin" /F` (idem pour `-midi` et `-soir`).
+- Option B (cron, Linux/macOS) : `crontab -e` et supprimez les deux lignes.
+- Option B (Windows) : `schtasks /Delete /TN "LocHunt-matin" /F` (idem pour `-soir`).
 - Option C : fermez la session ou arrêtez la boucle.
 
 Une fois le logement trouvé, pensez à couper la routine 🎉
