@@ -1,26 +1,31 @@
-# run_loc_hunt.ps1 — routine Loc-Hunt sous Windows (Planificateur de tâches)
+# run_loc_hunt.ps1 - routine Loc-Hunt sous Windows (Planificateur de taches)
 #
 # Usage (PowerShell) :
 #   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_loc_hunt.ps1 matin
 #
-# Équivalent Windows de run_loc_hunt.sh. Pré-requis :
-#   - le CLI `claude` (Claude Code) accessible dans le PATH
-#   - config.md rempli à la racine du dépôt
-#   - permissions pré-accordées pour un run sans invite (voir ROUTINE.md)
+# Equivalent Windows de run_loc_hunt.sh. Pre-requis :
+#   - le CLI 'claude' (Claude Code) accessible dans le PATH
+#   - config.md rempli a la racine du depot
+#   - permissions pre-accordees pour un run sans invite (voir ROUTINE.md)
+#
+# NB : fichier volontairement en ASCII pur (pas d'accents ni de tirets longs)
+#      pour rester compatible Windows PowerShell 5.1 (lecture ANSI par defaut).
 param([string]$Slot = "")
 
 $ErrorActionPreference = "Continue"
 
-# Racine du dépôt = dossier parent de scripts\
+# Racine du depot = dossier parent de scripts\
 Set-Location (Split-Path -Parent $PSScriptRoot)
 
 $LogDir = Join-Path $HOME "loc-hunt-cote-azur"
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 $Log = Join-Path $LogDir "loc-hunt.log"
 
-Add-Content $Log ("=== {0} — debut run Loc-Hunt ({1}) ===" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $Slot)
+$now = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+Add-Content $Log "=== $now - debut run Loc-Hunt ($Slot) ==="
 
-# --print = non-interactif ; acceptEdits = écritures de fichiers auto-acceptées.
+# --print = non-interactif ; acceptEdits = ecritures de fichiers auto-acceptees.
 claude --print --permission-mode acceptEdits "/loc-hunt $Slot" *>> $Log
 
-Add-Content $Log ("=== {0} — fin run Loc-Hunt ===" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
+$now = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+Add-Content $Log "=== $now - fin run Loc-Hunt ==="
