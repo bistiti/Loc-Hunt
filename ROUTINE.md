@@ -66,17 +66,26 @@ Les logs de chaque run vont dans `~/loc-hunt-cote-azur/loc-hunt.log`.
 ### Option B (Windows) — Planificateur de tâches
 
 Sous Windows, `cron`/`chmod` n'existent pas : utilisez le **Planificateur de tâches** avec le script
-PowerShell `scripts/run_loc_hunt.ps1` (rien à rendre « exécutable »).
+PowerShell `scripts/run_loc_hunt.ps1`, appelé via le wrapper **`scripts/run_loc_hunt.bat`** (certaines
+configurations de tâches planifiées se comportent mieux en pointant vers un `.bat` plutôt que directement
+vers un `.ps1` — guillemets/politique d'exécution plus prévisibles). Rien à rendre « exécutable ».
 
 1. **Testez d'abord à la main** (PowerShell, dans le dossier du dépôt) :
    ```powershell
-   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run_loc_hunt.ps1 matin
+   .\scripts\run_loc_hunt.bat matin
    Get-Content "$HOME\loc-hunt-cote-azur\loc-hunt.log" -Tail 40
    ```
 2. **Créez les 2 tâches** (adaptez le chemin `C:\Users\...\Loc-Hunt`) :
    ```powershell
-   schtasks /Create /TN "LocHunt-matin" /SC DAILY /ST 09:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 matin"
-   schtasks /Create /TN "LocHunt-soir"  /SC DAILY /ST 18:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.ps1 soir"
+   schtasks /Create /TN "LocHunt-matin" /SC DAILY /ST 09:00 /TR "C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.bat matin"
+   schtasks /Create /TN "LocHunt-soir"  /SC DAILY /ST 18:00 /TR "C:\Users\plop\Loc-Hunt\scripts\run_loc_hunt.bat soir"
+   ```
+   Si vous aviez déjà créé les tâches en pointant directement sur le `.ps1`, supprimez-les et recréez-les
+   avec les commandes ci-dessus (`schtasks` ne permet pas de modifier proprement l'action d'une tâche
+   existante) :
+   ```powershell
+   schtasks /Delete /TN "LocHunt-matin" /F
+   schtasks /Delete /TN "LocHunt-soir" /F
    ```
 3. **Vérifier / supprimer** une tâche :
    ```powershell
@@ -87,6 +96,56 @@ PowerShell `scripts/run_loc_hunt.ps1` (rien à rendre « exécutable »).
 > Le PC doit être allumé à l'heure prévue. Pour un run même session verrouillée, ouvrez le Planificateur
 > (interface) et cochez « Exécuter même si l'utilisateur n'est pas connecté ». Si Python n'est pas trouvé
 > pendant le run, autorisez-le via `/permissions` (sous Windows la commande peut être `python` ou `py -3`).
+
+#### Ça marche en PowerShell mais pas via le Planificateur de tâches ?
+
+C'est le symptôme classique : la tâche « s'exécute » (le journal affiche bien un début/fin de run) mais
+**rien n'est mis à jour** (ni tableur, ni brouillon email). Le Planificateur de tâches n'utilise pas
+toujours le même **PATH** qu'un terminal interactif : `claude` peut y être introuvable, et le script
+avortait silencieusement.
+
+`run_loc_hunt.ps1` détecte maintenant ce cas et écrit un diagnostic clair dans le journal :
+```powershell
+Get-Content "$HOME\loc-hunt-cote-azur\loc-hunt.log" -Tail 20
+```
+- S'il indique `claude resolu : ...` suivi du reste du run → ce n'était pas un problème de PATH,
+  regardez la suite du journal (permissions manquantes, etc.).
+- S'il indique `ERREUR : commande 'claude' introuvable` → réglez le PATH une bonne fois :
+  1. Dans une session PowerShell où `/loc-hunt` fonctionne, lancez :
+     ```powershell
+     (Get-Command claude).Source
+     ```
+  2. Définissez ce chemin en **variable d'environnement permanente** `CLAUDE_EXE` (Panneau de
+     configuration → Système → Paramètres système avancés → Variables d'environnement → Nouvelle,
+     ou en une commande) :
+     ```powershell
+     setx CLAUDE_EXE "C:\chemin\vers\claude.cmd"
+     ```
+     Puis **fermez et rouvrez** toute session PowerShell/Planificateur pour que la variable soit prise
+     en compte (`setx` ne s'applique qu'aux nouveaux processus).
+  3. Relancez la tâche planifiée (ou testez avec `schtasks /Run /TN "LocHunt-matin"`) et revérifiez le log.
+
+Autres réglages de la tâche à vérifier si le problème persiste (onglet **Général** de la tâche dans
+`taskschd.msc`) :
+- **Exécuter avec les autorisations maximales** : décochez, sauf besoin explicite (une session élevée
+  peut charger un environnement différent).
+- Sécurité : préférez **« Exécuter uniquement si l'utilisateur est connecté »** à « que l'utilisateur soit
+  connecté ou non » si le PC reste ouvert sur votre session — c'est le contexte le plus proche d'un run
+  interactif, donc le plus fiable pour retrouver le même comportement.
+- Onglet **Actions** → **Commencer dans (optionnel)** : renseignez le dossier `Loc-Hunt` (ex.
+  `C:\Users\plop\Loc-Hunt`), en plus du chemin déjà passé en argument.
+
+#### Le log affiche « You've hit your session limit »
+
+Ce n'est **ni un bug du script ni un problème Windows** : c'est le **quota d'usage de votre compte Claude**
+qui était atteint au moment du run (le message indique l'heure de reset, ex. « resets 8pm »). Le run a bien
+tenté de s'exécuter — `claude` a été trouvé et lancé — mais l'appel a été refusé faute de quota disponible.
+
+Cause fréquente : enchaîner plusieurs tests manuels (`schtasks /Run`, runs interactifs) en peu de temps
+consomme le même quota que les runs planifiés. Si vous testez beaucoup pendant la mise en place, il est
+normal de voir ce message de temps en temps — les runs planifiés (9 h / 18 h) sont en général assez espacés
+pour laisser le quota se reconstituer entre deux. Si le message apparaît systématiquement aux heures
+planifiées, vérifiez votre quota/plan dans les réglages de votre compte Claude.
 
 ### Option C — `/loop` (session ouverte)
 

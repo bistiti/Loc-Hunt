@@ -27,7 +27,12 @@ TYPE_CONTRAT=CDI
 REVENUS_MENSUELS_NET=3500
 GARANT=oui (parent, CDI) / Visale / aucun
 DOSSIER_PRET=oui — pièces d'identité, 3 derniers bulletins, avis d'imposition, justif. domicile
+LIEN_DOSSIERFACILE=https://locataire.dossierfacile.logement.gouv.fr/public-file/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
+
+> `LIEN_DOSSIERFACILE` : lien public de votre dossier **DossierFacile** (dossier locataire vérifié par l'État,
+> gratuit sur https://www.dossierfacile.logement.gouv.fr). La skill le **joint à chaque message de contact** —
+> le bailleur/l'agence consulte tout le dossier en un clic, sans pièce jointe. Laissez vide si vous n'en avez pas.
 
 > Règle usuelle des bailleurs : revenus ≈ 3× le loyer. Pour 1 500 € de loyer → ~4 500 € de revenus
 > (garant ou dispositif **Visale** si en dessous). Le message de contact mentionnera ces points.

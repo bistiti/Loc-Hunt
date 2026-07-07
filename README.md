@@ -40,7 +40,8 @@ Loc-Hunt/
 │   ├── creer_tracker.py   ← crée le fichier .xlsx (optionnel — la skill le fait sinon)
 │   ├── update_tracker.py  ← ajoute/dédoublonne les annonces dans le tableur (script fixe)
 │   ├── run_loc_hunt.sh    ← lance /loc-hunt en non-interactif (cron, Linux/macOS)
-│   └── run_loc_hunt.ps1   ← idem sous Windows (Planificateur de tâches)
+│   ├── run_loc_hunt.ps1   ← idem sous Windows (Planificateur de tâches)
+│   └── run_loc_hunt.bat   ← wrapper appelé par la tâche planifiée (voir ROUTINE.md)
 ├── outreach/              ← messages de contact générés (ignoré par git)
 └── .gitignore
 ```
