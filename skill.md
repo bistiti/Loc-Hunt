@@ -113,8 +113,11 @@ Compteurs en gras : 🟢 HIGH : N | 🟡 MEDIUM : N | ⚪ LOW : N | 📋 TOTAL :
 - Encadré vert avec un message de contact prêt à envoyer (< 100 mots, personnalisé) :
   « Bonjour, votre annonce [type] à [commune] ([loyer] € CC) m'intéresse beaucoup.
     Je suis [VOTRE_NOM], [VOTRE_AGE] ans, [VOTRE_PROFESSION] en [TYPE_CONTRAT], revenus
-    ~[REVENUS_MENSUELS_NET] €/mois[, garant [GARANT]]. Dossier complet prêt à envoyer.
+    ~[REVENUS_MENSUELS_NET] €/mois[, garant [GARANT]]. Mon dossier complet, vérifié par l'État
+    (DossierFacile), est consultable ici : [LIEN_DOSSIERFACILE].
     Disponible pour une visite [EMMENAGEMENT]. Cordialement, [VOTRE_NOM] — [VOTRE_TELEPHONE] »
+  ⚠️ Toujours insérer le lien [LIEN_DOSSIERFACILE] tel quel (cliquable). Si [LIEN_DOSSIERFACILE] est vide
+     dans config.md, remplacer la phrase par « Dossier complet prêt à envoyer. »
 
 **C — 🟡 MEDIUM du jour :** Titre (lien) | Commune | Loyer | Dispo | court encadré de contact.
 
@@ -125,7 +128,8 @@ Statut = NOUVEAU 🔴, Priorité = High, Trouvé le ≠ aujourd'hui. Communes pr
 Chacune : carte avec URL cliquable + message prêt à envoyer.
 
 **F — Stats :** totaux, répartition par commune, prochain run.
-Fin : « ⚠️ Marché tendu : contactez au moins 5 annonces aujourd'hui, dossier complet en pièce jointe. »
+Fin : « ⚠️ Marché tendu : contactez au moins 5 annonces aujourd'hui. Chaque message inclut déjà le lien
+DossierFacile ([LIEN_DOSSIERFACILE]) — dossier vérifié consultable en un clic. »
 
 Après création du brouillon : aller sur https://mail.google.com/mail/u/[GMAIL_ACCOUNT_INDEX]/#drafts,
 ouvrir le brouillon, cliquer Envoyer.
@@ -155,6 +159,7 @@ Enregistrer un .txt par annonce HIGH dans [DOSSIER_RECHERCHE]/outreach/
 | `[GARANT]` | parent CDI / Visale | config.md |
 | `[VOTRE_PROFIL]` | non-fumeur, sans animaux, calme | config.md |
 | `[VOTRE_TELEPHONE]` | +33 6 … | config.md |
+| `[LIEN_DOSSIERFACILE]` | https://locataire.dossierfacile.logement.gouv.fr/public-file/… | config.md |
 | `[ZONES_PRIORITAIRES]` | Beausoleil, Cap-d'Ail, Roquebrune-Cap-Martin, La Turbie, Monaco | config.md |
 | `[ZONES_SECONDAIRES]` | Nice (hors Ariane), Menton, Èze, Villefranche-sur-Mer, Beaulieu-sur-Mer, La Trinité | config.md |
 | `[ZONES_A_EVITER]` | quartier de l'Ariane (Nice Est) | config.md |
