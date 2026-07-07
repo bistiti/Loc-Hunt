@@ -88,6 +88,44 @@ PowerShell `scripts/run_loc_hunt.ps1` (rien à rendre « exécutable »).
 > (interface) et cochez « Exécuter même si l'utilisateur n'est pas connecté ». Si Python n'est pas trouvé
 > pendant le run, autorisez-le via `/permissions` (sous Windows la commande peut être `python` ou `py -3`).
 
+#### Ça marche en PowerShell mais pas via le Planificateur de tâches ?
+
+C'est le symptôme classique : la tâche « s'exécute » (le journal affiche bien un début/fin de run) mais
+**rien n'est mis à jour** (ni tableur, ni brouillon email). Le Planificateur de tâches n'utilise pas
+toujours le même **PATH** qu'un terminal interactif : `claude` peut y être introuvable, et le script
+avortait silencieusement.
+
+`run_loc_hunt.ps1` détecte maintenant ce cas et écrit un diagnostic clair dans le journal :
+```powershell
+Get-Content "$HOME\loc-hunt-cote-azur\loc-hunt.log" -Tail 20
+```
+- S'il indique `claude resolu : ...` suivi du reste du run → ce n'était pas un problème de PATH,
+  regardez la suite du journal (permissions manquantes, etc.).
+- S'il indique `ERREUR : commande 'claude' introuvable` → réglez le PATH une bonne fois :
+  1. Dans une session PowerShell où `/loc-hunt` fonctionne, lancez :
+     ```powershell
+     (Get-Command claude).Source
+     ```
+  2. Définissez ce chemin en **variable d'environnement permanente** `CLAUDE_EXE` (Panneau de
+     configuration → Système → Paramètres système avancés → Variables d'environnement → Nouvelle,
+     ou en une commande) :
+     ```powershell
+     setx CLAUDE_EXE "C:\chemin\vers\claude.cmd"
+     ```
+     Puis **fermez et rouvrez** toute session PowerShell/Planificateur pour que la variable soit prise
+     en compte (`setx` ne s'applique qu'aux nouveaux processus).
+  3. Relancez la tâche planifiée (ou testez avec `schtasks /Run /TN "LocHunt-matin"`) et revérifiez le log.
+
+Autres réglages de la tâche à vérifier si le problème persiste (onglet **Général** de la tâche dans
+`taskschd.msc`) :
+- **Exécuter avec les autorisations maximales** : décochez, sauf besoin explicite (une session élevée
+  peut charger un environnement différent).
+- Sécurité : préférez **« Exécuter uniquement si l'utilisateur est connecté »** à « que l'utilisateur soit
+  connecté ou non » si le PC reste ouvert sur votre session — c'est le contexte le plus proche d'un run
+  interactif, donc le plus fiable pour retrouver le même comportement.
+- Onglet **Actions** → **Commencer dans (optionnel)** : renseignez le dossier `Loc-Hunt` (ex.
+  `C:\Users\plop\Loc-Hunt`), en plus du chemin déjà passé en argument.
+
 ### Option C — `/loop` (session ouverte)
 
 Pour une exécution répétée tant qu'une session Claude Code reste ouverte :
