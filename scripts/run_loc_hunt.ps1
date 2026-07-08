@@ -63,6 +63,8 @@ if (-not $ClaudeExe) {
 Write-Log "claude resolu : $ClaudeExe"
 
 # --print = non-interactif ; acceptEdits = ecritures de fichiers auto-acceptees.
-& $ClaudeExe --print --permission-mode acceptEdits "/loc-hunt $Slot" *>> $Log
+# --model/--effort : Sonnet avec effort de raisonnement maximal (xhigh), pour une
+# recherche/priorisation aussi fiable que possible sur un run non surveille.
+& $ClaudeExe --print --model sonnet --effort xhigh --permission-mode acceptEdits "/loc-hunt $Slot" *>> $Log
 
 Write-Log "=== fin run Loc-Hunt ==="

@@ -27,6 +27,15 @@ de contact et envoie le récapitulatif. Si `config.md` est manquant, elle vous l
 > Pré-requis : `config.md` rempli (voir `README.md`), et — en mode `email` — vos alertes plateformes/Jinka +
 > le label Gmail configurés (voir `config.md` et `guide.md`).
 
+### Modèle et effort de raisonnement
+
+Les lanceurs planifiés (`run_loc_hunt.sh` et `run_loc_hunt.ps1`) appellent `claude` avec
+**`--model sonnet --effort xhigh`** : modèle Sonnet, effort de raisonnement maximal. Un run non surveillé
+(email + tableur + priorisation HIGH/MEDIUM/LOW) bénéficie de ce niveau d'effort pour rester fiable sans
+intervention humaine. Si vous lancez `/loc-hunt` à la main dans une session Claude Code, appliquez le même
+réglage avec `/model sonnet` puis `/effort xhigh` (ou lancez directement `claude --model sonnet --effort
+xhigh --print "/loc-hunt"`).
+
 ---
 
 ## Planifier la routine (matin 9 h + soir 18 h)
